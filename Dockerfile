@@ -2,7 +2,7 @@ ARG DEBIAN_VERSION=stretch-slim
 
 ##### Building stage #####
 FROM debian:${DEBIAN_VERSION} as builder
-MAINTAINER Tareq Alqutami <tareqaziz2010@gmail.com>
+MAINTAINER Tareq Alqutami <jeremy.boetticher@hark.tv>
 
 # Versions of nginx, rtmp-module and ffmpeg 
 ARG  NGINX_VERSION=1.17.5
@@ -13,12 +13,11 @@ ARG  FFMPEG_VERSION=4.2.1
 RUN apt-get update && \
 	apt-get install -y \
 		wget build-essential ca-certificates \
-		openssl libssl-dev yasm \
+		openssl libssl-dev yasm vim \
 		libpcre3-dev librtmp-dev libtheora-dev \
 		libvorbis-dev libvpx-dev libfreetype6-dev \
 		libmp3lame-dev libx264-dev libx265-dev && \
     rm -rf /var/lib/apt/lists/*
-	
 		
 # Download nginx source
 RUN mkdir -p /tmp/build && \
@@ -84,6 +83,9 @@ RUN cp /tmp/build/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}/stat.xsl /usr/l
 
 ##### Building the final image #####
 FROM debian:${DEBIAN_VERSION}
+
+# Install npm oh yeah baby
+RUN apt-get install nodejs npm -y --no-install-recommends;
 
 # Install dependencies
 RUN apt-get update && \
