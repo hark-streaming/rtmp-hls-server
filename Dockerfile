@@ -2,12 +2,17 @@ ARG DEBIAN_VERSION=stretch-slim
 
 ##### Building stage #####
 FROM debian:${DEBIAN_VERSION} as builder
-MAINTAINER Tareq Alqutami <jeremy.boetticher@hark.tv>
+MAINTAINER Jeremy Boetticher <jeremy.boetticher@hark.tv>
 
 # Versions of nginx, rtmp-module and ffmpeg 
 ARG  NGINX_VERSION=1.17.5
 ARG  NGINX_RTMP_MODULE_VERSION=1.2.1
 ARG  FFMPEG_VERSION=4.2.1
+
+# Copies dependencies from bitwave
+COPY --from=bitwavetv/skylight:dev /usr/local/bin /usr/local/bin
+COPY --from=bitwavetv/skylight:dev /usr/local/nginx /usr/local/nginx
+COPY --from=bitwavetv/skylight:dev /usr/local/lib /usr/local/lib
 
 # Install dependencies
 RUN apt-get update && \
@@ -85,7 +90,7 @@ RUN cp /tmp/build/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}/stat.xsl /usr/l
 FROM debian:${DEBIAN_VERSION}
 
 # Install npm oh yeah baby
-RUN apt-get install nodejs npm -y --no-install-recommends;
+# RUN apt-get install nodejs npm -y --no-install-recommends;
 
 # Install dependencies
 RUN apt-get update && \
