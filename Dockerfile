@@ -18,7 +18,7 @@ COPY --from=bitwavetv/skylight:dev /usr/local/lib /usr/local/lib
 RUN apt-get update && \
 	apt-get install -y \
 		wget build-essential ca-certificates \
-		openssl libssl-dev yasm vim \
+		openssl libssl-dev yasm \
 		libpcre3-dev librtmp-dev libtheora-dev \
 		libvorbis-dev libvpx-dev libfreetype6-dev \
 		libmp3lame-dev libx264-dev libx265-dev && \
@@ -66,7 +66,7 @@ RUN cd /tmp/build/ffmpeg-${FFMPEG_VERSION} && \
 	  --enable-gpl \
 	  --enable-small \
 	  --enable-libx264 \
-	  --enable-libx265 \
+	  #--enable-libx265 \
 	  --enable-libvpx \
 	  --enable-libtheora \
 	  --enable-libvorbis \
@@ -89,13 +89,10 @@ RUN cp /tmp/build/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}/stat.xsl /usr/l
 ##### Building the final image #####
 FROM debian:${DEBIAN_VERSION}
 
-# Install npm oh yeah baby
-# RUN apt-get install nodejs npm -y --no-install-recommends;
-
 # Install dependencies
 RUN apt-get update && \
 	apt-get install -y \
-		ca-certificates openssl libpcre3-dev \
+		ca-certificates openssl libpcre3-dev vim \
 		librtmp1 libtheora0 libvorbis-dev libmp3lame0 \
 		libvpx4 libx264-dev libx265-dev && \
     rm -rf /var/lib/apt/lists/*
