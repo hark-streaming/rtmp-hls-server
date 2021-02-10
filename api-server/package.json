@@ -1,0 +1,51 @@
+{
+  "name": "hark-media-server",
+  "version": "1.0.0",
+  "description": "hark media server",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "dev": "npx nodemon ./build",
+    "start": "node ./build",
+    "docker:build": "docker build -t jeremyboetticherhark/hark-api-server:latest .",
+    "docker:up": "docker-compose up",
+    "docker:push": "docker push jeremyboetticherhark/hark-api-server:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jboetticher/rtmp-hls-server.git"
+  },
+  "author": "Jeremy Boetticher",
+  "license": "Private",
+  "bugs": {
+    "url": "https://github.com/jboetticher/rtmp-hls-server/issues"
+  },
+  "homepage": "https://github.com/jboetticher/rtmp-hls-server#readme",
+  "dependencies": {
+    "aws-sdk": "^2.702.0",
+    "body-parser": "^1.19.0",
+    "cfonts": "^2.8.5",
+    "chalk": "^3.0.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.0",
+    "firebase-admin": "^8.12.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "moment-timezone": "^0.5.31",
+    "printf": "^0.5.2",
+    "q": "^1.5.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/fluent-ffmpeg": "^2.1.14",
+    "@types/node": "^12.12.7",
+    "@types/q": "^1.5.4",
+    "@types/request-promise": "^4.1.46",
+    "@types/socket.io-client": "^1.4.33"
+  }
+}

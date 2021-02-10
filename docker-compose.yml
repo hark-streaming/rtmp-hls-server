@@ -33,34 +33,34 @@ services:
       - HARK_CDN=cdn.stream.bitwave.tv     # MODIFY THIS
 
 
-  # API Server Configuration
-  # api-server:
-  #   container_name: hark-api-server
-  #   image: jeremyboetticherhark/hark-api-server:latest
-  #   # build: '../api-server'
+  #API Server Configuration
+  api-server:
+    container_name: hark-api-server
+    image: jeremyboetticherhark/hark-api-server:latest
+    # build: '../api-server'
 
-  #   ports:
-  #     - "3000:3000"
+    ports:
+      - "3000:3000"
 
-  #   networks:
-  #     internal:
-  #       aliases:
-  #         - bms-api-server
-  #         - api-server
+    networks:
+      internal:
+        aliases:
+          - bms-api-server
+          - api-server
 
-  #   # Mount archives & API creds #
-  #   # - MODIFY THESE LOCATIONS - #
-  #   volumes:
-  #     - /srv/archives:/archives
-  #     - /srv/creds:/api-server/creds
+    # Mount archives & API creds #
+    # - MODIFY THESE LOCATIONS - #
+    volumes:
+      - /srv/archives:/archives
+      - /srv/creds:/api-server/creds
 
-  #   environment:
-  #     - FORCE_COLOR=1
-  #     - HARK_ENV=dev
-  #     - HARK_LOGLEVEL=4
-  #     - HARK_TIMEZONE=America/Los_Angeles
-  #     - HARK_SERVER=stream.bitwave.tv      # MODIFY THIS
-  #     - HARK_CDN=cdn.stream.bitwave.tv     # MODIFY THIS
+    environment:
+      - FORCE_COLOR=1
+      - HARK_ENV=dev
+      - HARK_LOGLEVEL=4
+      - HARK_TIMEZONE=America/Los_Angeles
+      - HARK_SERVER=stream.bitwave.tv      # MODIFY THIS
+      - HARK_CDN=cdn.stream.bitwave.tv     # MODIFY THIS
 
 
 # Network Definitions
