@@ -1,0 +1,13 @@
+# Hark NGINX Node.js API
+This is an API that handles RTMP ingest. It makes sure that only people who have authorization can stream, helps 
+redirect with CDNs, and archives videos.  
+
+## Building the Server
+This is a docker project, but we have some npm commands to help.  
+Building the Container: `npm run docker:build`  
+Pushing the Container:  `npm run docker:push`
+
+## Environment Variables
+Environment variables are handled in this project by editing the *config.json* file, found under *src/conf/config.json*. 
+Follow the format to add the environment variables of your choice. Since this is a private repo, secrets are shared. So 
+don't leak anything!
