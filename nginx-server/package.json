@@ -1,0 +1,20 @@
+{
+  "name": "hark-nginx-server",
+  "version": "1.0.0",
+  "description": "hark nginx server",
+  "scripts": {
+    "docker:build": "docker build -t jeremyboetticherhark/rtmp-hls:latest .",
+    "docker:up": "docker-compose up",
+    "docker:push": "docker push jeremyboetticherhark/rtmp-hls:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jboetticher/rtmp-hls-server.git"
+  },
+  "author": "Jeremy Boetticher",
+  "license": "Private",
+  "bugs": {
+    "url": "https://github.com/jboetticher/rtmp-hls-server/issues"
+  },
+  "homepage": "https://github.com/jboetticher/rtmp-hls-server#readme"
+}

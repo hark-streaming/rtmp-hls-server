@@ -45,7 +45,7 @@ services:
     networks:
       internal:
         aliases:
-          - hark-api-server
+          - bms-api-server
           - api-server
 
     # Mount archives & API creds #

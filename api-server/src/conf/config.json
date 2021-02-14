@@ -1,0 +1,15 @@
+{
+    "envVars": [
+        {
+            "name": "HARK_NODEJS_ENV",
+            "alias": [ "LOLOLOLOLOL" ],
+            "required": false,
+            "defaultValue": "dev"
+        },
+        {
+            "name": "DEV",
+            "required": false,
+            "defaultValue": "true"
+        }
+    ]
+}
