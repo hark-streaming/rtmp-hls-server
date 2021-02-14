@@ -23,14 +23,16 @@ router.use('/posts', () => {
  */
 router.post('/stream/authorize', async (req, res) => {
 
-    console.log(req);
+    const app = req.body.app;
+    const name = req.body.name;
 
-    //const app = req.body.app;
-    //const name = req.body.name;
-    //const key = req.body.key;
+    // still undefined, maybe stream key needs to be like bitwave
+    const key = req.body.key;
 
-    //if (!app) return res.status(404).send(`Invalid route for authorization`);
+    if (!app) return res.status(404).send(`Invalid route for authorization`);
 
+    // jeremy note: ok i have no clue why this is here, but it seems like a 
+    //              security issue so i'm not going to use it
     // Check if we need to check streamkey
     //if (app !== 'live') return res.status(200).send(`${[app]} Auth not required`);
 
@@ -73,8 +75,7 @@ router.post('/stream/authorize', async (req, res) => {
     if (!checkKey) {
         return res
             .status(403)
-            .send('access denied.');
-            //.send(`${name} denied.`);
+            .send(`${name} denied.`);
     }
 
     /**
@@ -84,7 +85,7 @@ router.post('/stream/authorize', async (req, res) => {
     // We are authorized
     res
         .status(200)
-        .send(`${name} authorized oh yeah.`);
+        .send(`${name} authorized.`);
 
 
     /*
