@@ -1,16 +1,16 @@
 import { Router } from 'express';
+import { streamAuth } from '../../classes/StreamAuth';
+
+
+
+//#region Set Up
 
 const router = Router();
-//const app = express();
 
-//#region Middlewares
-// they're functions that fire whenever a specific route is hit
-
-/*
-router.use('/posts', () => {
-    console.log("This is a middleware running!");
+export const streamauth = streamAuth({
+  hostServer : process.env['HARK_SERVER'] || 'stream.bitrave.tv',
+  cdnServer  : process.env['HARK_CDN']    || 'cdn.stream.bitrave.tv',
 });
-*/
 
 //#endregion
 
@@ -82,7 +82,6 @@ router.post('/stream/authorize', async (req, res) => {
      * Respond as quickly as possible to the client while
      * the server continues to process the connection.
      */
-    // We are authorized
     res
         .status(200)
         .send(`${name} authorized.`);
@@ -152,9 +151,10 @@ router.post('/stream/end', async (req, res) => {
     const app = req.body.app;
     const name = req.body.name;
 
-    /*
     // Streamer has  fully disconnected
     if (app === 'live') {
+        
+        /*
         // Prevent timer from firing when stream goes offline
         liveTimers.map(val => {
             if (val.user.toLowerCase() === name.toLowerCase())
@@ -179,17 +179,19 @@ router.post('/stream/end', async (req, res) => {
 
         // Set offline status
         await streamauth.setLiveStatus(name, false);
+        */
 
         res.send(`[${app}] ${name} is now OFFLINE`);
     }
-    */
 });
 
 
 
 router.get('/', (req, res) => {
-    res.send('kevin');
+    res.send('kevin i did it');
 });
+
+
 
 // right now it's assuming that it's localhost. need to get docker-compose to work oof
 router.get('/v1/stream', (req, res) => {
@@ -242,12 +244,7 @@ router.get('/v1/channels/live', (req, res) => {
     );
 });
 
-router.post('/posts', (req, res) => {
-    res.send("We are on home");
-});
-
 //#endregion
 
 
 export default router;
-//app.listen(3000);

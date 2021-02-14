@@ -12,6 +12,26 @@
             "defaultValue": "dev"
         },
         {
+            "name": "HARK_SERVER",
+            "required": false,
+            "defaultValue": "http://127.0.0.1:8080"
+        },
+        {
+            "name": "HARK_CDN",
+            "required": false,
+            "defaultValue": "http://127.0.0.1:8080"
+        },
+        {
+            "name": "DB_URL",
+            "required": false,
+            "defaultValue": "https://bitwave-7f415.firebaseio.com"
+        },
+        {
+            "name": "CICD",
+            "required": false,
+            "defaultValue": "false"
+        },
+        {
             "name": "DEV",
             "required": false,
             "defaultValue": "true"

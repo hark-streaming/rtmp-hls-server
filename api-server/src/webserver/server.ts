@@ -14,8 +14,6 @@ import { AddressInfo } from 'net';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 
-import chalk from 'chalk';
-
 // other
 import path from 'path';
 import Q from 'q';
