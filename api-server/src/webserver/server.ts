@@ -29,6 +29,7 @@ import api from './api';
 // middleware
 import expressLogger from '../webserver/middleware/expressLogger';
 import { Server } from 'http';
+import { info } from 'console';
 
 /**
  * Class for the bitwave media server, powered by express.js
@@ -137,10 +138,10 @@ class HarkMediaServer {
   startWebserver () {
     const deferred = Q.defer();
     nodeLogger.info ( 'Starting Node.js API server . . .' );
-    this.app.set( 'port', process.env.BMS_NODEJS_PORT );
+    this.app.set( 'port', process.env.HARK_NODEJS_PORT );
     this.server = this.app.listen ( this.app.get ( 'port' ), () => {
       this.app.set ( 'server', this.server.address() );
-      nodeLogger.info( `Node.js API server running on ${process.env.BMS_NODEJS_PORT}` );
+      nodeLogger.info( `Node.js API server running on ${process.env.HARK_NODEJS_PORT}` );
       deferred.resolve( (this.server.address() as AddressInfo).port );
     });
     return deferred.promise;
@@ -157,6 +158,7 @@ class HarkMediaServer {
     this.addFavicon();
     this.addPreviewThumbnails();
     this.addRoutes();
+    
   }
 
   /**
