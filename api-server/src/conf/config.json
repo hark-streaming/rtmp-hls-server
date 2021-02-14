@@ -2,12 +2,12 @@
     "envVars": [
         {
             "name": "HARK_NODEJS_PORT",
+            "alias": ["port"],
             "required": false,
             "defaultValue": "3000"
         },
         {
             "name": "HARK_NODEJS_ENV",
-            "alias": [ "LOLOLOLOLOL" ],
             "required": false,
             "defaultValue": "dev"
         },

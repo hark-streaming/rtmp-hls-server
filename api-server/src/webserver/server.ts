@@ -139,11 +139,14 @@ class HarkMediaServer {
     const deferred = Q.defer();
     nodeLogger.info ( 'Starting Node.js API server . . .' );
     this.app.set( 'port', process.env.HARK_NODEJS_PORT );
+
     this.server = this.app.listen ( this.app.get ( 'port' ), () => {
+      // wtf is going on here? what is this?
       this.app.set ( 'server', this.server.address() );
       nodeLogger.info( `Node.js API server running on ${process.env.HARK_NODEJS_PORT}` );
       deferred.resolve( (this.server.address() as AddressInfo).port );
     });
+    
     return deferred.promise;
   }
 
