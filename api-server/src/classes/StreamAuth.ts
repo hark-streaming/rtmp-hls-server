@@ -10,19 +10,21 @@ import { serverData } from './ServerData';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
 import rp from 'request-promise';
+//import serviceAccount from '../creds/service-account.json';
 
 // Do not attempt to log credentials for CI/CD pipeline
 const CICD: boolean = process.env['CICD'] === 'true';
 const databaseURL: string = process.env['DB_URL'];
-/*
-if ( !CICD ) { // i think this is credential handling for when it's not a live product
-  const serviceAccount = require('../../creds/service-account.json');
+
+
+if ( !CICD ) { // i think this is credential handling for when it's time to update
+  const serviceAccount = require('../conf/service-account.json');
   admin.initializeApp({
     credential: admin.credential.cert( serviceAccount ),
     databaseURL: databaseURL
   });
 }
-*/
+
 
 const hlsStream: string  = `hls`;
 const transcodeStream: string = `transcode`;

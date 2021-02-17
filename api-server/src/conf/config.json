@@ -24,7 +24,7 @@
         {
             "name": "DB_URL",
             "required": false,
-            "defaultValue": "https://bitwave-7f415.firebaseio.com"
+            "defaultValue": "https://hark-e2efe.firebaseio.com"
         },
         {
             "name": "CICD",

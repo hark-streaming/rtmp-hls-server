@@ -26,6 +26,8 @@ router.post('/stream/authorize', async (req, res) => {
     const app = req.body.app;
     const name = req.body.name;
 
+    console.log("name: " + name);
+
     // still undefined, maybe stream key needs to be like bitwave
     const key = req.body.key;
 
@@ -69,8 +71,8 @@ router.post('/stream/authorize', async (req, res) => {
     //#endregion
 
     // Verify stream key
-    //const checkKey: boolean = await streamauth.checkStreamKey ( name, key );
-    const checkKey: boolean = true;
+    const checkKey: boolean = await streamauth.checkStreamKey ( name, key );
+    //const checkKey: boolean = true;
 
     if (!checkKey) {
         return res
