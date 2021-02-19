@@ -10,7 +10,9 @@ import { serverData } from './ServerData';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
 import rp from 'request-promise';
-//import serviceAccount from '../creds/service-account.json';
+
+// necessary to import for build to work so i called it boingo
+import boingo from '../conf/service-account.json';
 
 // Do not attempt to log credentials for CI/CD pipeline
 const CICD: boolean = process.env['CICD'] === 'true';
@@ -47,7 +49,7 @@ class StreamAuth {
   async getStreamKey ( username: string ): Promise<string|null> {
     const streamRef = admin.firestore()
       .collection( 'users' )
-      .where( '_username', '==', username.toLowerCase() )
+      .where( 'username', '==', username.toLowerCase() )
       .limit( 1 );
 
     const docs = await streamRef.get();

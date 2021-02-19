@@ -25,11 +25,9 @@ router.post('/stream/authorize', async (req, res) => {
 
     const app = req.body.app;
     const name = req.body.name;
-
-    console.log("name: " + name);
-
-    // still undefined, maybe stream key needs to be like bitwave
     const key = req.body.key;
+
+    console.log("app: " + app + ", name: " + name + ", key: " + key);
 
     if (!app) return res.status(404).send(`Invalid route for authorization`);
 
