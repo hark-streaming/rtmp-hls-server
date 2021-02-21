@@ -1,7 +1,7 @@
 /**
  * @file this file is loaded on application start and initializes the application
- * @link https://github.com/bitwave-tv/bitwave-media-server
- * @copyright 2019 [bitwave.tv]
+ * @link https://github.com/jboetticher/rtmp-hls-server
+ * @copyright 2020 [hark.tv]
  * @license GPL-3.0
  */
 
@@ -61,13 +61,11 @@ if ( envVar.hasErrors() ) process.exit();
 
 //#region CI/CD
 
-/*
 if ( process.env['CICD'] === 'true' ) {
   setTimeout( () => {
     process.exit( 0 );
   }, 5 * 1000 );
 }
-*/
 
 //#endregion
 
