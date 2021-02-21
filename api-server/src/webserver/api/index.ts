@@ -1,6 +1,10 @@
 import { Router } from 'express';
+import chalk from 'chalk';
+import rp from 'request-promise';
+
 import { streamAuth } from '../../classes/StreamAuth';
 import { serverData } from '../../classes/ServerData';
+
 import logger from '../../classes/Logger';
 const apiLogger = logger('APIv1');
 import Timeout = NodeJS.Timeout;
@@ -35,6 +39,12 @@ export const streamauth = streamAuth({
 
 //#region ROUTES
 
+
+
+/*********************************
+ * Authorize Streams
+ */
+
 /**
  * Authorize livestream
  */
@@ -52,14 +62,14 @@ router.post('/stream/authorize', async (req, res) => {
     //if (app !== 'live') return res.status(200).send(`${[app]} Auth not required`);
 
     //#region live endpoint stuff
-    
+
     // block new connections if user is already connected
-    const streamer = serverData.getStreamer( name );
-    if ( streamer ) {
-      apiLogger.error( `Streamer '${name}' is already connected! Denying new connection.` );
-      return res
-        .status( 500 )
-        .send( `Failed to start HLS ffmpeg process` );
+    const streamer = serverData.getStreamer(name);
+    if (streamer) {
+        apiLogger.error(`Streamer '${name}' is already connected! Denying new connection.`);
+        return res
+            .status(500)
+            .send(`Failed to start HLS ffmpeg process`);
     }
 
     // The following code only runs on the live endpoint
@@ -196,13 +206,101 @@ router.post('/stream/end', async (req, res) => {
     }
 });
 
+/**
+ * Publish HLS stream, send notification callback
+ */
+router.post(
+    '/stream/publish',
+  
+    async ( req, res ) => {
+      const app  = req.body.app;  // Always HLS
+      const name = req.body.name; // Stream name
+  
+      // Basic sanity check
+      if ( app !== 'hls' ) return res.status(404).send(`Unknown stream endpoint ${app}.`);
+  
+      if ( name ) {
+        const timer: Timeout = setTimeout( async () => {
+          apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('sending notification request')}.`);
+          // Send notifications
+          const options = { form: { streamer: name } };
+          try {
+            await rp.post( 'https://api.hark.tv/api/notification/live', options );
+          } catch ( error ) {
+            apiLogger.error( error.message );
+          }
+          // remove finished timer
+          liveTimers = liveTimers.filter( val => val.user.toLowerCase() !== name.toLowerCase() );
+        }, notificationDelay * 1000 );
+  
+        notificationTimers.push({
+          user: name.toLowerCase(),
+          timer: timer,
+        });
+      }
+  
+      apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('PUBLISHED')}.`);
+      res.send( `[${name}] Published ${name}.` );
+    },
+  );
 
+
+
+/*********************************
+ * Server Data
+ */
+
+/**
+ * Get all streamers' data
+ */
+router.get(
+    '/server/data',
+    async (req, res) => {
+        const data = serverData.getStreamerList();
+        res.send(data);
+    },
+);
+
+/**
+ * Get a certain streamer's data
+ */
+router.get(
+    '/server/data/:streamer',
+    async (req, res) => {
+        const streamer = req.params.streamer;
+        const data = serverData.getStreamerData(streamer);
+
+        // Verify we got data
+        if (!data) return res.status(404).send('Error: streamer not found');
+
+        // Update streamer's data
+        // serverData.updateStreamer( streamer ); // Prevent potential DDoS
+
+        // Send results
+        res.send(data);
+    },
+);
+
+
+//#endregion
+
+
+
+//#region shit routes
 
 router.get('/', (req, res) => {
-    res.send('kevin i did it');
+    res.send('what did it cost? everything.');
 });
 
-
+/**
+ * all this shit below here? yeah that's shit.
+ * the api server is a firebase thing, not this server
+ * this current server is only for the rtmp/hls not that
+ * 
+ * this server updates the firebase, which is where the channel info is being taken
+ * from on the front end
+ * the front end never accesses this api ever!
+ */
 
 // right now it's assuming that it's localhost. need to get docker-compose to work oof
 router.get('/v1/stream', (req, res) => {
