@@ -84,7 +84,6 @@ const startup = async () => {
 
 //#region Shutdown Protocol
 
-/*
 import { serverData } from './classes/ServerData';
 
 
@@ -120,8 +119,6 @@ Object.keys( signals )
       await shutdown( signal, signals[ signal ] );
     });
   });
-
-*/
 
 //#endregion
 

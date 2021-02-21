@@ -1,5 +1,22 @@
 import { Router } from 'express';
 import { streamAuth } from '../../classes/StreamAuth';
+import { serverData } from '../../classes/ServerData';
+import logger from '../../classes/Logger';
+const apiLogger = logger('APIv1');
+import Timeout = NodeJS.Timeout;
+
+
+
+interface ILiveTimer {
+    user: string;
+    timer: Timeout;
+}
+
+let liveTimers: ILiveTimer[] = [];
+const updateDelay: number = 15; // 15 seconds
+
+let notificationTimers: ILiveTimer[] = [];
+const notificationDelay: number = 60; // 60 seconds
 
 
 
@@ -8,8 +25,8 @@ import { streamAuth } from '../../classes/StreamAuth';
 const router = Router();
 
 export const streamauth = streamAuth({
-  hostServer : process.env['HARK_SERVER'] || 'stream.bitrave.tv',
-  cdnServer  : process.env['HARK_CDN']    || 'cdn.stream.bitrave.tv',
+    hostServer: process.env['HARK_SERVER'] || 'stream.bitrave.tv',
+    cdnServer: process.env['HARK_CDN'] || 'cdn.stream.bitrave.tv',
 });
 
 //#endregion
@@ -27,8 +44,6 @@ router.post('/stream/authorize', async (req, res) => {
     const name = req.body.name;
     const key = req.body.key;
 
-    console.log("app: " + app + ", name: " + name + ", key: " + key);
-
     if (!app) return res.status(404).send(`Invalid route for authorization`);
 
     // jeremy note: ok i have no clue why this is here, but it seems like a 
@@ -37,8 +52,7 @@ router.post('/stream/authorize', async (req, res) => {
     //if (app !== 'live') return res.status(200).send(`${[app]} Auth not required`);
 
     //#region live endpoint stuff
-
-    /*
+    
     // block new connections if user is already connected
     const streamer = serverData.getStreamer( name );
     if ( streamer ) {
@@ -47,29 +61,26 @@ router.post('/stream/authorize', async (req, res) => {
         .status( 500 )
         .send( `Failed to start HLS ffmpeg process` );
     }
-    */
 
-    /*
     // The following code only runs on the live endpoint
     // and requires both a name & key to authorize publish
-    if ( !name ) {
-      apiLogger.error( `Stream authorization missing username.` );
-      return res
-        .status( 422 )
-        .send(`Authorization missing username.`);
+    if (!name) {
+        apiLogger.error(`Stream authorization missing username.`);
+        return res
+            .status(422)
+            .send(`Authorization missing username.`);
     }
-    if ( !key ) {
-      apiLogger.error( `[${name}] Stream authorization missing key` );
-      return res
-        .status( 422 )
-        .send( `Missing authorization key` );
+    if (!key) {
+        apiLogger.error(`[${name}] Stream authorization missing key`);
+        return res
+            .status(422)
+            .send(`Missing authorization key`);
     }
-    */
 
     //#endregion
 
     // Verify stream key
-    const checkKey: boolean = await streamauth.checkStreamKey ( name, key );
+    const checkKey: boolean = await streamauth.checkStreamKey(name, key);
     //const checkKey: boolean = true;
 
     if (!checkKey) {
@@ -86,7 +97,6 @@ router.post('/stream/authorize', async (req, res) => {
         .status(200)
         .send(`${name} authorized.`);
 
-
     /*
     // Relay stream to HLS endpoint
     const relaySuccessful: boolean = await hlsRelay.startRelay( name );
@@ -100,46 +110,49 @@ router.post('/stream/authorize', async (req, res) => {
 
     //#region Pre fetch archive status
 
-    /*
     // If authorized, pre-fetch archive status
-    const checkArchive: boolean = await streamauth.checkArchive( name );
+    // TODO: utilize check archive
+    const checkArchive: boolean = false; //await streamauth.checkArchive( name );
 
     // Wait for a few seconds before updating state and starting archive
-    const timer: Timeout = setTimeout( async () => {
+    const timer: Timeout = setTimeout(async () => {
 
-      // Update live status
-      await streamauth.setLiveStatus( name, true );
+        // Update live status
+        await streamauth.setLiveStatus(name, true);
 
-      // Check if we should archive stream
-      if ( !checkArchive ) {
-        apiLogger.info( `Archiving is disabled for ${chalk.cyanBright.bold(name)}` );
-        return;
-      }
-
-      // Start stream archive
-      const attempts = 5;
-      let response;
-      for ( let i: number = 0; i <= attempts; i++ ) {
-
-        // response = await rp( `${host}/${control}/record/start?app=live&name=${name}&rec=archive` );
-        response = await archiver.startArchive( name, 'replay' );
-
-        if ( !response ) {
-          await new Promise( resolve => setTimeout( resolve, 1000 * 10 ) );
-          apiLogger.info( `${chalk.redBright('Failed to start archive')}, attempting again in 10 seconds (${i}/${attempts})` );
-          if ( i === attempts ) apiLogger.info( `${chalk.redBright('Giving up on archive.')} (out of attempts)` );
-        } else {
-          apiLogger.info( `Archiving ${chalk.cyanBright.bold(name)} to: ${chalk.greenBright(response)}` );
-          break;
+        /*
+        // Check if we should archive stream
+        if ( !checkArchive ) {
+          apiLogger.info( `Archiving is disabled for ${chalk.cyanBright.bold(name)}` );
+          return;
         }
-      }
-    }, updateDelay * 1000 );
+  
+        // Start stream archive
+        const attempts = 5;
+        let response;
+        for ( let i: number = 0; i <= attempts; i++ ) {
+  
+          // response = await rp( `${host}/${control}/record/start?app=live&name=${name}&rec=archive` );
+          response = await archiver.startArchive( name, 'replay' );
+  
+          if ( !response ) {
+            await new Promise( resolve => setTimeout( resolve, 1000 * 10 ) );
+            apiLogger.info( `${chalk.redBright('Failed to start archive')}, attempting again in 10 seconds (${i}/${attempts})` );
+            if ( i === attempts ) apiLogger.info( `${chalk.redBright('Giving up on archive.')} (out of attempts)` );
+          } else {
+            apiLogger.info( `Archiving ${chalk.cyanBright.bold(name)} to: ${chalk.greenBright(response)}` );
+            break;
+          }
+        }
+  
+        */
+
+    }, updateDelay * 1000);
 
     liveTimers.push({
-      user: name,
-      timer: timer,
+        user: name,
+        timer: timer,
     });
-    */
 
     //#endregion
 });
@@ -153,8 +166,7 @@ router.post('/stream/end', async (req, res) => {
 
     // Streamer has  fully disconnected
     if (app === 'live') {
-        
-        /*
+
         // Prevent timer from firing when stream goes offline
         liveTimers.map(val => {
             if (val.user.toLowerCase() === name.toLowerCase())
@@ -179,7 +191,6 @@ router.post('/stream/end', async (req, res) => {
 
         // Set offline status
         await streamauth.setLiveStatus(name, false);
-        */
 
         res.send(`[${app}] ${name} is now OFFLINE`);
     }

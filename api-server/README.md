@@ -2,6 +2,8 @@
 This is an API that handles RTMP ingest. It makes sure that only people who have authorization can stream, helps 
 redirect with CDNs, and archives videos.  
 
+# Setup
+
 ## Building the Server
 This is a docker project, but we have some npm commands to help.  
 Building the Container: `npm run docker:build`  
@@ -15,4 +17,13 @@ don't leak anything!
 ## Firebase Authentication
 You'll have to [make a service account](https://firebase.google.com/docs/admin/setup#add_firebase_to_your_app). Take the 
 json file from this process and rename it *service-account.json*. Place it under *src/conf/service-account.json*. If you 
-do not already have a *creds* folder, make it. This way, you'll be able to make admin changes from the localhost.
+do not already have a *creds* folder, make it. This way, you'll be able to make admin changes from the localhost.  
+
+# Systems  
+
+## Streamers & Firebase  
+Firebase stores information on each user within the user collection, but to
+store whether or not the user is currently streamer, the streams collection
+is referenced.  
+Each document within the streams collection represents an active scene, and
+will be removed if the user stops streaming.
