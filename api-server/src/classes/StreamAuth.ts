@@ -138,6 +138,7 @@ class StreamAuth {
     log.info( `${chalk.cyanBright(username)} is now ${ state ? chalk.greenBright.bold('LIVE') : chalk.redBright.bold('OFFLINE') }` );
   };
 
+  // TODO: MODIFY THIS PART TO WRITE IN OUR CDN SERVER / HLS STREAM ENDPOINT
   /**
    * Set transcode status and livestream endpoint
    * @param {string} username - Streamer's username
