@@ -118,7 +118,9 @@ class StreamAuth {
       return;
     }
 
-    const streamUrl = `https://${this.cdnServer}/${hlsStream}/${username}/index.m3u8`;
+    // change this to our end hls endpoints
+    //const streamUrl = `https://${this.cdnServer}/${hlsStream}/${username}/index.m3u8`;
+    const streamUrl = `http://localhost:8080/hls/${username}.m3u8`;
     const thumbUrl  = `https://${this.cdnServer}/${thumbnail}/${username}.jpg`;
 
     await streamRef.update({
