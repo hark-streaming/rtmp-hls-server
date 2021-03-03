@@ -1,3 +1,22 @@
+# Hark part
+To build:
+go into /api-server, follow readme and then run `npm run docker:build`
+go into /nginx-server, then run `npm run docker:build`
+go into /rtmp-hls-server (the directory that contains both api and nginx folders), then run `docker-compose up`
+
+To stream to the local server with OBS:
+Server: rtmp://localhost:1935/live
+Stream Key: testman?key=hoogilydoogily
+
+The output of the stream is in hls format within the nginx server, under:
+/mnt/hls/{username}.m3u8
+this can be accessed with http://localhost:8080/hls/${username}.m3u8
+(example: http://localhost:8080/hls/testman.m3u8)
+
+When modifying the code for testing:
+you must re-build and re-run the docker-compose container
+
+
 # RTMP-HLS Docker
 
 **Docker image for video streaming server that supports RTMP, HLS, and DASH streams.**

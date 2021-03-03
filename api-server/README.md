@@ -17,7 +17,17 @@ don't leak anything!
 ## Firebase Authentication
 You'll have to [make a service account](https://firebase.google.com/docs/admin/setup#add_firebase_to_your_app). Take the 
 json file from this process and rename it *service-account.json*. Place it under *src/conf/service-account.json*. If you 
-do not already have a *creds* folder, make it. This way, you'll be able to make admin changes from the localhost.  
+do not already have a *creds* folder, make it. This way, you'll be able to make admin changes from the localhost. 
+
+from https://firebase.google.com/docs/admin/setup#add_firebase_to_your_app
+To generate a private key file for your service account:
+
+1. In the Firebase console, open Settings > Service Accounts.
+
+2. Click Generate New Private Key, then confirm by clicking Generate Key.
+
+3. Securely store the JSON file containing the key.
+
 
 # Systems  
 
