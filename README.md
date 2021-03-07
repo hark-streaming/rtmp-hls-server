@@ -1,5 +1,11 @@
 # RTMP-HLS Docker
 
+## Jeremy Notes
+Alright, to push to aws you gotta do some commands in both folders:  
+`npm run docker:build` builds it.  
+`npm run aws:tag` will tag it. be sure to run `npm run aws:login` if it throws an authentication error.  
+`npm run aws:push` pushes it to the aws repository. then you can use it
+
 **Docker image for video streaming server that supports RTMP, HLS, and DASH streams.**
 
 [![Docker Automated build](https://img.shields.io/docker/cloud/automated/alqutami/rtmp-hls.svg)](https://hub.docker.com/r/alqutami/rtmp-hls/builds/)

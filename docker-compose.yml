@@ -29,8 +29,8 @@ services:
       - HARK_ENV=dev
       - HARK_LOGLEVEL=4
       - HARK_TIMEZONE=America/Los_Angeles
-      - HARK_SERVER=stream.bitwave.tv      # MODIFY THIS
-      - HARK_CDN=cdn.stream.bitwave.tv     # MODIFY THIS
+      - HARK_SERVER=stream.hark.tv      # MODIFY THIS
+      - HARK_CDN=cdn.stream.hark.tv     # MODIFY THIS
 
 
   #API Server Configuration
@@ -59,8 +59,8 @@ services:
       - HARK_ENV=dev
       - HARK_LOGLEVEL=4
       - HARK_TIMEZONE=America/Los_Angeles
-      - HARK_SERVER=stream.bitwave.tv      # MODIFY THIS
-      - HARK_CDN=cdn.stream.bitwave.tv     # MODIFY THIS
+      - HARK_SERVER=stream.hark.tv      # MODIFY THIS
+      - HARK_CDN=cdn.stream.hark.tv     # MODIFY THIS
 
 
 # Network Definitions

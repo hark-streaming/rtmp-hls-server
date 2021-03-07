@@ -44,7 +44,7 @@ interface IStreamerData {
 /**
  * @const {string} - The RTMP endpoint we will probe for data
  */
-const rtmpServer: string = 'rtmp://nginx-server/live';
+const rtmpServer: string = 'rtmp://stream.hark.tv/live'; //'rtmp://nginx-server/live';
 
 class ServerData {
   private streamers: Map<string, IStreamerData>;

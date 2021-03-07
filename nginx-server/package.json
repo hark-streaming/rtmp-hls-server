@@ -5,7 +5,10 @@
   "scripts": {
     "docker:build": "docker build -t jeremyboetticherhark/rtmp-hls:latest .",
     "docker:up": "docker-compose up",
-    "docker:push": "docker push jeremyboetticherhark/rtmp-hls:latest"
+    "docker:push": "docker push jeremyboetticherhark/rtmp-hls:latest",
+    "aws:login": "aws --region us-east-2 ecr get-login-password | docker login --username AWS --password-stdin 122378557113.dkr.ecr.us-east-2.amazonaws.com",
+    "aws:tag": "docker tag jeremyboetticherhark/rtmp-hls 122378557113.dkr.ecr.us-east-2.amazonaws.com/rtmp-nginx:latest",
+    "aws:push": "docker push 122378557113.dkr.ecr.us-east-2.amazonaws.com/rtmp-nginx:latest"
   },
   "repository": {
     "type": "git",

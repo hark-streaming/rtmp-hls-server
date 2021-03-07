@@ -11,7 +11,10 @@
     "docker:build": "docker build -t jeremyboetticherhark/hark-api-server:latest .",
     "docker:up": "docker-compose up",
     "docker:push": "docker push jeremyboetticherhark/hark-api-server:latest",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "aws:login": "aws --region us-east-2 ecr get-login-password | docker login --username AWS --password-stdin 122378557113.dkr.ecr.us-east-2.amazonaws.com",
+    "aws:tag": "docker tag jeremyboetticherhark/hark-api-server 122378557113.dkr.ecr.us-east-2.amazonaws.com/rtmp-api:latest",
+    "aws:push": "docker push 122378557113.dkr.ecr.us-east-2.amazonaws.com/rtmp-api:latest"
   },
   "repository": {
     "type": "git",
