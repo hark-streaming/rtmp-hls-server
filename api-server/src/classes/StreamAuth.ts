@@ -120,7 +120,7 @@ class StreamAuth {
 
     // change this to our end hls endpoints
     //const streamUrl = `https://${this.cdnServer}/${hlsStream}/${username}/index.m3u8`;
-    const streamUrl = `http://nginx-server:8080/hls/${username}.m3u8`;
+    const streamUrl = `http://13.59.151.129:8080/hls/${username}.m3u8`;
     const thumbUrl  = `https://${this.cdnServer}/${thumbnail}/${username}.jpg`;
 
     await streamRef.update({
