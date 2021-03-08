@@ -318,41 +318,6 @@ router.get('/v1/stream/:user', (req, res) => {
     }
 });
 
-// get live channels except it's just kevin's right now
-router.get('/v1/channels/live', (req, res) => {
-    res.send(
-        {
-            "success": true,
-            "live": [
-                {
-                    "viewCount": 209,
-                    "src": "https://cdn.stream.bitwave.tv/hls/britbong/index.m3u8",
-                    "name": "britbong",
-                    "type": "application/x-mpegURL",
-                    "nsfw": false
-                },
-            ],
-            "streamers": [
-                {
-                    "viewCount": 215,
-                    "title": " 🔴Britbong.com: Britbong never dies",
-                    "name": "britbong",
-                    "avatar": "https://cdn.bitwave.tv/uploads/v2/avatar/8c663568-f407-4f13-b427-3e035cfb3484-128.jpg",
-                    "poster": "https://bitwave.s3.us-west.stackpathstorage.com/img/cover/b71bc591-2f6f-4638-8638-757cbe22d71b-1280x720.png",
-                    "thumbnail": "https://cdn.stream.bitwave.tv/preview/britbong.jpg",
-                    "to": "/britbong",
-                    "live": true,
-                    "nsfw": false,
-                    "url": "https://cdn.stream.bitwave.tv/hls/britbong/index.m3u8",
-                    "owner": "ARbj6Q32wMVsbulZq2N1Mbe6j8A3",
-
-                    "banned": false
-                },
-            ]
-        }
-    );
-});
-
 //#endregion
 
 
