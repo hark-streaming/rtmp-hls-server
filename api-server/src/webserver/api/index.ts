@@ -29,8 +29,8 @@ const notificationDelay: number = 60; // 60 seconds
 const router = Router();
 
 export const streamauth = streamAuth({
-    hostServer: process.env['HARK_SERVER'] || 'stream.bitrave.tv',
-    cdnServer: process.env['HARK_CDN'] || 'cdn.stream.bitrave.tv',
+    hostServer: process.env['HARK_SERVER'] || 'stream.hark.tv',
+    cdnServer: process.env['HARK_CDN'] || 'cdn.stream.hark.tv',
 });
 
 //#endregion
@@ -56,8 +56,8 @@ router.post('/stream/authorize', async (req, res) => {
 
     if (!app) return res.status(404).send(`Invalid route for authorization`);
 
-    // jeremy note: ok i have no clue why this is here, but it seems like a 
-    //              security issue so i'm not going to use it
+    // note: ok i have no clue why this is here, but it seems like a security issue 
+    //       so i'm not going to use it
     // Check if we need to check streamkey
     //if (app !== 'live') return res.status(200).send(`${[app]} Auth not required`);
 
@@ -211,38 +211,38 @@ router.post('/stream/end', async (req, res) => {
  */
 router.post(
     '/stream/publish',
-  
-    async ( req, res ) => {
-      const app  = req.body.app;  // Always HLS
-      const name = req.body.name; // Stream name
-  
-      // Basic sanity check
-      if ( app !== 'hls' ) return res.status(404).send(`Unknown stream endpoint ${app}.`);
-  
-      if ( name ) {
-        const timer: Timeout = setTimeout( async () => {
-          apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('sending notification request')}.`);
-          // Send notifications
-          const options = { form: { streamer: name } };
-          try {
-            await rp.post( 'https://api.hark.tv/api/notification/live', options );
-          } catch ( error ) {
-            apiLogger.error( error.message );
-          }
-          // remove finished timer
-          liveTimers = liveTimers.filter( val => val.user.toLowerCase() !== name.toLowerCase() );
-        }, notificationDelay * 1000 );
-  
-        notificationTimers.push({
-          user: name.toLowerCase(),
-          timer: timer,
-        });
-      }
-  
-      apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('PUBLISHED')}.`);
-      res.send( `[${name}] Published ${name}.` );
+
+    async (req, res) => {
+        const app = req.body.app;  // Always HLS
+        const name = req.body.name; // Stream name
+
+        // Basic sanity check
+        if (app !== 'hls') return res.status(404).send(`Unknown stream endpoint ${app}.`);
+
+        if (name) {
+            const timer: Timeout = setTimeout(async () => {
+                apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('sending notification request')}.`);
+                // Send notifications
+                const options = { form: { streamer: name } };
+                try {
+                    await rp.post('https://api.hark.tv/api/notification/live', options);
+                } catch (error) {
+                    apiLogger.error(error.message);
+                }
+                // remove finished timer
+                liveTimers = liveTimers.filter(val => val.user.toLowerCase() !== name.toLowerCase());
+            }, notificationDelay * 1000);
+
+            notificationTimers.push({
+                user: name.toLowerCase(),
+                timer: timer,
+            });
+        }
+
+        apiLogger.info(`[${app}] ${chalk.cyanBright.bold(name)} is now ${chalk.greenBright.bold('PUBLISHED')}.`);
+        res.send(`[${name}] Published ${name}.`);
     },
-  );
+);
 
 
 
@@ -283,42 +283,5 @@ router.get(
 
 
 //#endregion
-
-
-
-//#region shit routes
-
-router.get('/', (req, res) => {
-    res.send('what did it cost? everything.');
-});
-
-/**
- * all this shit below here? yeah that's shit.
- * the api server is a firebase thing, not this server
- * this current server is only for the rtmp/hls not that
- * 
- * this server updates the firebase, which is where the channel info is being taken
- * from on the front end
- * the front end never accesses this api ever!
- */
-
-// right now it's assuming that it's localhost. need to get docker-compose to work oof
-router.get('/v1/stream', (req, res) => {
-    res.send('http://127.0.0.1:8080/hls/test1.m3u8');
-});
-
-router.get('/v1/stream/:user', (req, res) => {
-    let user = req.params.user;
-
-    if (user == "test2") {
-        res.send('http://127.0.0.1:8080/hls/test2.m3u8');
-    }
-    else {
-        res.send('http://127.0.0.1:8080/hls/test1.m3u8');
-    }
-});
-
-//#endregion
-
 
 export default router;
