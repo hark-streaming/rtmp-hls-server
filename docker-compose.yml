@@ -10,8 +10,9 @@ services:
     # build: '../nginx-server'
 
     ports:
-      - "8080:443"
+      - "8080:8080"
       - "1935:1935"
+      - "8080:443"
 
     networks:
       internal:
