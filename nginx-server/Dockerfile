@@ -121,7 +121,7 @@ COPY players /usr/local/nginx/html/players
 
 EXPOSE 1935
 EXPOSE 8080
-#EXPOSE 80
+EXPOSE 80
 EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
