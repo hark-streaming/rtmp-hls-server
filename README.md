@@ -20,6 +20,10 @@ you must re-build and re-run the docker-compose container
 # RTMP-HLS Docker
 
 ## Jeremy Notes
+First you have to configure SSL, because you need your own certificates. After pulling, go into nginx-server/nginx.conf and change the SSL configuration if needed.
+Remember that if you change anything here, you will also need to change it in the Dockerfile, near the bottom.  
+You will also need to provide a "creds" folder at nginx-server/creds with the credentials.  
+You may find this [link](https://www.clickssl.net/blog/how-to-install-an-ssl-certificate-on-a-nginx-server) helpful.
 Alright, to push to aws you gotta do some commands in both folders:  
 `npm run docker:build` builds it.  
 `npm run aws:tag` will tag it. be sure to run `npm run aws:login` if it throws an authentication error.  

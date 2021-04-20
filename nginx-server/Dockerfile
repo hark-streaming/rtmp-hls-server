@@ -108,6 +108,10 @@ COPY --from=builder /var/run/nginx /var/run/nginx
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Copy credentials to container
+COPY creds/hark.tv.cert.pem /etc/ssl/certs/hark.tv.cert.pem
+COPY creds/hark.tv.key.pem /etc/ssl/private/hark.tv.key.pem
+
 # Copy  nginx config file to container
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
