@@ -12,6 +12,8 @@ services:
     ports:
       - "8080:8080"
       - "1935:1935"
+      - "443:443"
+      - "80:80"
 
     networks:
       internal:
